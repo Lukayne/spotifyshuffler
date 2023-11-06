@@ -12,7 +12,7 @@ class SpotifyAPIPlaylistHandler: NSObject, ObservableObject {
     
     static let shared = SpotifyAPIPlaylistHandler()
     
-    private let spotifyInit = { SpotifyAPIDefaultHandler.shared }()
+    private let spotifyAPIDefaultHandler = { SpotifyAPIDefaultHandler.shared }()
     
     private override init() {
         
@@ -29,7 +29,7 @@ class SpotifyAPIPlaylistHandler: NSObject, ObservableObject {
         
         var request = URLRequest(url: url!)
         request.httpMethod = "GET"
-        request.setValue("Bearer " + (spotifyInit.appRemote.connectionParameters.accessToken ?? ""), forHTTPHeaderField: "Authorization")
+        request.setValue("Bearer " + (spotifyAPIDefaultHandler.appRemote.connectionParameters.accessToken ?? ""), forHTTPHeaderField: "Authorization")
     
         
         return URLSession.shared.dataTaskPublisher(for: request)
@@ -45,7 +45,7 @@ class SpotifyAPIPlaylistHandler: NSObject, ObservableObject {
         let url = URL(string: "https://api.spotify.com/v1/me/player/play")
         var request = URLRequest(url: url!)
         request.httpMethod = "PUT"
-        request.setValue("Bearer " + (spotifyInit.appRemote.connectionParameters.accessToken ?? ""), forHTTPHeaderField: "Authorization")
+        request.setValue("Bearer " + (spotifyAPIDefaultHandler.appRemote.connectionParameters.accessToken ?? ""), forHTTPHeaderField: "Authorization")
         let body = SpotifyPlaybackStartResume(uris: [songURI])
         let jsonEncoder = JSONEncoder()
         

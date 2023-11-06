@@ -31,17 +31,21 @@ class SpotifyPlaylistViewModel: ObservableObject {
     init(playlist: Playlist) {
         self.playlist = playlist
         
-        spotifyPlaylistAPIHandler.objectWillChange.sink(receiveValue: { _ in
-            self.objectWillChange.send()
+        spotifyPlaylistAPIHandler.objectWillChange.sink(receiveValue: { [weak self] _ in
+            self?.objectWillChange.send()
         }).store(in: &bag)
         
-        spotifyAPIDefaultHandler.objectWillChange.sink(receiveValue: { _ in
-            self.objectWillChange.send()
+        spotifyAPIDefaultHandler.objectWillChange.sink(receiveValue: { [weak self] _ in
+            self?.objectWillChange.send()
         }).store(in: &bag)
         
-        spotifyAPIDefaultHandler.$currentSongBeingPlayed.sink { song in
-            self.songBeingPlayed = song 
+        spotifyAPIDefaultHandler.$currentSongBeingPlayed.sink { [weak self] song in
+            self?.songBeingPlayed = song 
         }.store(in: &bag)
+    }
+    
+    deinit {
+        bag.removeAll()
     }
     
     func onAppear() {
@@ -57,8 +61,12 @@ class SpotifyPlaylistViewModel: ObservableObject {
     
     private func getTracks(limit: Int, offset: Int) {
         spotifyPlaylistAPIHandler.getTracksForPlaylist(playlistID: playlist.playlistID, market: "", fields: "", limit: limit, offset: offset, additionalTypes: "")
-            .sink { spotifyPlaylistItems in
-                self.mapTracks(spotifyPlaylistItems: spotifyPlaylistItems)
+            .sink { [weak self] spotifyPlaylistItems in
+                if self?.numberOfTracksLoaded != self?.tracks.total {
+                    self?.mapTracks(spotifyPlaylistItems: spotifyPlaylistItems)
+                } else {
+                    self?.state = .loadedAllSongs
+                }
             }.store(in: &bag)
     }
     
@@ -117,10 +125,6 @@ class SpotifyPlaylistViewModel: ObservableObject {
         let randomTrack = self.tracks.trackObject[randomIndex]
         
         spotifyPlaylistAPIHandler.shuffleSong(songURI: randomTrack.uri)
-    }
-    
-    private func pauseSong() {
-        
     }
     
     func playSong() {

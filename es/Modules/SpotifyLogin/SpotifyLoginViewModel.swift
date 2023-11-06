@@ -11,14 +11,12 @@ import SwiftUI
 
 class SpotifyLoginViewModel: ObservableObject {
     
-    @Published private var spotifyInitiatorViewModel: SpotifyAPIDefaultHandler = { SpotifyAPIDefaultHandler.shared } ()
+    @Published private var spotifyAPIDefaultHandler: SpotifyAPIDefaultHandler = { SpotifyAPIDefaultHandler.shared } ()
     
     @Published var authState: AuthenticationState = AuthenticationState.idle
     
     var loginTitle = String(localized: "loginTextFieldTitleForNotConnected")
     var userConnectionButtonTitle = String(localized: "loginUserConnectionButtonTitleForNotConnected")
-
-    private var cancellable: AnyCancellable?
 
     private var bag = Set<AnyCancellable>()
     
@@ -26,19 +24,23 @@ class SpotifyLoginViewModel: ObservableObject {
         bind()
     }
     
+    deinit {
+        bag.removeAll()
+    }
+    
     func connectUser() {
-        self.spotifyInitiatorViewModel.connectUser()
+        self.spotifyAPIDefaultHandler.connectUser()
     }
     
     private func bind() {
-        cancellable = spotifyInitiatorViewModel.objectWillChange.sink(receiveValue: { _ in
-            self.objectWillChange.send()
-        })
+        spotifyAPIDefaultHandler.objectWillChange.sink(receiveValue: { [weak self] _ in
+            self?.objectWillChange.send()
+        }).store(in: &bag)
         
         
-        spotifyInitiatorViewModel.$authenticationState
-            .sink { authState in
-                self.authState = authState
+        spotifyAPIDefaultHandler.$authenticationState
+            .sink { [weak self] authState in
+                self?.authState = authState
             }.store(in: &bag)
     }
 }

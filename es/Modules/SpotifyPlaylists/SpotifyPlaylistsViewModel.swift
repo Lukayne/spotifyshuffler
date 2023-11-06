@@ -11,38 +11,40 @@ import Combine
 class SpotifyPlaylistsViewModel: ObservableObject {
     
     @Published private var spotifyPlaylistsAPIHandler: SpotifyAPIPlaylistsHandler = { SpotifyAPIPlaylistsHandler.shared } ()
-    @Published private var spotifyInit: SpotifyAPIDefaultHandler = { SpotifyAPIDefaultHandler.shared } ()
+    @Published private var spotifyAPIDefaultHandler: SpotifyAPIDefaultHandler = { SpotifyAPIDefaultHandler.shared } ()
     @Published private var currentUserProfile: SpotifyCurrentUserProfile?
     
     @Published var numberOfPlaylists: Int = 0
     @Published var playlists: [Playlist] = [Playlist(name: "", description: "", playlistID: "", externalURLs: ExternalURLs(spotify: ""), tracks: Tracks(href: "", total: 0))]
     @Published var user: User = User(name: "")
 
-    private var cancellable: AnyCancellable?
-    private var playlistsCancellable: AnyCancellable?
     private var bag = Set<AnyCancellable>()
     
     init() {
-        cancellable = spotifyPlaylistsAPIHandler.objectWillChange.sink(receiveValue: { _ in
-            self.objectWillChange.send()
-        })
+        spotifyPlaylistsAPIHandler.objectWillChange.sink(receiveValue: { [weak self] _ in
+            self?.objectWillChange.send()
+        }).store(in: &bag)
+    }
+    
+    deinit {
+        bag.removeAll()
     }
     
     func onAppear() {
-        if (spotifyInit.appRemote.connectionParameters.accessToken != nil) {
+        if (spotifyAPIDefaultHandler.appRemote.connectionParameters.accessToken != nil) {
             getUserProfile()
         }
     }
     
     private func getUserProfile() {
-        cancellable = spotifyPlaylistsAPIHandler.getCurrentUserProfile().sink(receiveValue: { currentUserProfile in
-            self.currentUserProfile = currentUserProfile
+        spotifyPlaylistsAPIHandler.getCurrentUserProfile().sink(receiveValue: { [weak self] currentUserProfile in
+            self?.currentUserProfile = currentUserProfile
             
             if currentUserProfile.uri != nil {
-                self.mapSpotifyUser(spotifyUser: currentUserProfile)
-                self.getPlaylists()
+                self?.mapSpotifyUser(spotifyUser: currentUserProfile)
+                self?.getPlaylists()
             }
-        })
+        }).store(in: &bag)
     }
     
     private func getPlaylists() {
@@ -51,10 +53,10 @@ class SpotifyPlaylistsViewModel: ObservableObject {
         }
         
         
-        playlistsCancellable = spotifyPlaylistsAPIHandler.getUsersPlaylists(userID: userID, limit: 50, offset: 0)
-            .sink(receiveValue: { spotifyPlaylists in
-                self.mapSpotifyPlaylists(spotifyPlaylists: spotifyPlaylists)
-            })
+        spotifyPlaylistsAPIHandler.getUsersPlaylists(userID: userID, limit: 50, offset: 0)
+            .sink(receiveValue: { [weak self] spotifyPlaylists in
+                self?.mapSpotifyPlaylists(spotifyPlaylists: spotifyPlaylists)
+            }).store(in: &bag)
     }
     
     private func mapSpotifyPlaylists(spotifyPlaylists: SpotifyPlaylists) {
