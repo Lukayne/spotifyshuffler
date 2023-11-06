@@ -39,5 +39,38 @@ class SpotifyAPIPlaylistHandler: NSObject, ObservableObject {
             .receive(on: RunLoop.main)
             .eraseToAnyPublisher()
     }
+    
+    func shuffleSong(songURI: String) {
+        
+        let url = URL(string: "https://api.spotify.com/v1/me/player/play")
+        var request = URLRequest(url: url!)
+        request.httpMethod = "PUT"
+        request.setValue("Bearer " + (spotifyInit.appRemote.connectionParameters.accessToken ?? ""), forHTTPHeaderField: "Authorization")
+        let body = SpotifyPlaybackStartResume(uris: [songURI])
+        let jsonEncoder = JSONEncoder()
+        
+        do {
+            let jsonData = try jsonEncoder.encode(body)
+            let jsonString = String(data: jsonData, encoding: .utf8)
+            
+            URLSession.shared.uploadTask(with: request, from: jsonData) { data, urlResponse, error in
+                if let error = error {
+                    print("error \(error.localizedDescription)")
+                }
+                
+                if let responseCode = (urlResponse as? HTTPURLResponse)?.statusCode, let data = data {
+                    guard responseCode == 204 else {
+                        print("Invalid response code: \(responseCode)")
+                        return
+                    }
+                    if let responseJSONData = try? JSONSerialization.jsonObject(with: data, options: .allowFragments) {
+                        print("RESPONSE JSON DATA = \(responseJSONData)")
+                    }
+                }
+            }.resume()
+        } catch {
+            print("ERROR")
+        }
+    }
 }
 

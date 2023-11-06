@@ -15,14 +15,33 @@ struct SpotifyPlaylistView: View {
         Text("Playlist: \(spotifyPlaylistViewModel.tracks.name)")
         Text("Number of songs: \(spotifyPlaylistViewModel.tracks.total)")
         Text("Number of songs loaded: \(spotifyPlaylistViewModel.numberOfTracksLoaded)")
-        Text("Loading: \(spotifyPlaylistViewModel.remainingTracksToLoad) songs")
+        
+        switch spotifyPlaylistViewModel.state {
+        case .loading:
+            Text("Loading: \(spotifyPlaylistViewModel.remainingTracksToLoad) songs")
+        case .loadedAllSongs:
+            HStack {
+                Button("Previous") {
+                    
+                }
+                Button("Play") {
+                    spotifyPlaylistViewModel.playSong()
+                }
+                Button("Next") {
+                    
+                }
+            }
+        case .notInitiated:
+            Text("")
+        }
+        
         List(spotifyPlaylistViewModel.tracks.trackObject) { track in
             VStack {
                 Text("Song: \(track.name)")
                 Text("URI: \(track.uri)")
             }
         }
-            .onAppear(perform: spotifyPlaylistViewModel.onAppear)
+        .onAppear(perform: spotifyPlaylistViewModel.onAppear)
     }
 }
 
