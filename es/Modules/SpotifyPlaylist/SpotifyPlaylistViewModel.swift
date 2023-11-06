@@ -112,9 +112,9 @@ class SpotifyPlaylistViewModel: ObservableObject {
     }
     
     private func getRandomNumber() -> Int {
-        var randomInt = Int.random(in: 0...tracks.trackObject.count)
+        var randomInt = Int.random(in: 0...tracks.trackObject.count-1)
         while alreadyShuffledIndexes.contains(randomInt) {
-            randomInt = Int.random(in: 0...tracks.trackObject.count)
+            randomInt = Int.random(in: 0...tracks.trackObject.count-1)
         }
         alreadyShuffledIndexes.append(randomInt)
         
