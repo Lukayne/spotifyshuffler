@@ -12,10 +12,12 @@ class SpotifyPlaylistsViewModel: ObservableObject {
     
     @Published private var spotifyPlaylistsAPIHandler: SpotifyAPIPlaylistsHandler = { SpotifyAPIPlaylistsHandler.shared } ()
     @Published private var spotifyInit: SpotifyInitiatorViewModel = { SpotifyInitiatorViewModel.shared } ()
+    @Published var playLists: SpotifyPlaylists = SpotifyPlaylists(href: "", items: [SimplifiedPlaylistObject(collaborative: false, description: "", externalURLs: SpotifyExternalURLs(spotify: ""), href: "", id: "", images: [SpotifyImages(url: "", height: 0, width: 0)], name: "", owner: SpotifyOwner(externalURLs: SpotifyExternalURLs(spotify: ""), followers: SpotifyFollowers(href: "", total: 0), href: "", id: "", type: "", uri: "", displayName: ""), public: false, snapshotID: "", tracks: SpotifyTracks(href: "", total: 0), type: "", uri: "", primaryColor: 0)], limit: 0, next: "", offset: 0, previous: "", total: 0)
+    @Published private var currentUserProfile: SpotifyCurrentUserProfile?
     
-    @Published var playLists: SpotifyPlaylists?
-    @Published var currentUserProfile: SpotifyCurrentUserProfile?
-    
+    @Published var numberOfPlaylists: Int = 0
+    @Published var mappedPlaylists: Playlists = Playlists(name: "", description: "", externalURLs: ExternalURLs(spotify: ""), tracks: Tracks(href: "", total: 0
+                                                                                                                ))
     
     
     private var cancellable: AnyCancellable?
@@ -50,8 +52,16 @@ class SpotifyPlaylistsViewModel: ObservableObject {
             return
         }
         
-        playlistsCancellable = spotifyPlaylistsAPIHandler.getUsersPlaylists(userID: "ricci123", limit: 50, offset: 0).sink(receiveValue: { spotifyPlaylists in
-            print("Users playlists: \(spotifyPlaylists)")
-        })
+        spotifyPlaylistsAPIHandler.getUsersPlaylists(userID: "ricci123", limit: 50, offset: 0)
+            .compactMap { $0 }
+            .assign(to: &$playLists)
+    }
+    
+    private func setNumberOfPlaylists() {
+        self.numberOfPlaylists = playLists.total ?? 0
+    }
+    
+    private func mapPlaylist() {
+        
     }
 }

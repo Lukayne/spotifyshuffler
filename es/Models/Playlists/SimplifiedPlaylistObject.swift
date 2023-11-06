@@ -14,6 +14,7 @@ struct SimplifiedPlaylistObject: Codable {
         case externalURLs = "external_urls"
         case `public` = "public"
         case snapshotID = "snapshot_id"
+        case primaryColor = "primary_color"
     }
     
     let collaborative: Bool?
@@ -21,7 +22,7 @@ struct SimplifiedPlaylistObject: Codable {
     let externalURLs: SpotifyExternalURLs?
     let href: String?
     let id: String?
-    let images: SpotifyImages?
+    let images: [SpotifyImages?]
     let name: String?
     let owner: SpotifyOwner?
     let `public`: Bool?
@@ -29,5 +30,6 @@ struct SimplifiedPlaylistObject: Codable {
     let tracks: SpotifyTracks?
     let type: String?
     let uri: String?
+    let primaryColor: Double?
 }
 

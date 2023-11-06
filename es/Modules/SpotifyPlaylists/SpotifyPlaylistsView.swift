@@ -10,11 +10,11 @@ import SwiftUI
 struct SpotifyPlaylistsView: View {
     
     @StateObject var spotifyPlaylistsViewModel = SpotifyPlaylistsViewModel()
-    
+
     var body: some View {
-        List {
-            
-        }
+        Text("Hejsan")
+        let _ = print("PLAYLISTSSSSS: \(spotifyPlaylistsViewModel.playLists)")
+        Text("Number of playlists: \(spotifyPlaylistsViewModel.numberOfPlaylists)")
         .onAppear(perform: spotifyPlaylistsViewModel.onAppear)
     }
 }

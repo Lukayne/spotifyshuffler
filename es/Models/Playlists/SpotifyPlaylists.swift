@@ -1,5 +1,5 @@
 //
-//  Playlist.swift
+//  SpotifyPlaylists.swift
 //  es
 //
 //  Created by Richard Smith on 2023-04-18.
@@ -17,7 +17,7 @@ struct SpotifyPlaylists: Codable {
     let items: [SimplifiedPlaylistObject?]
     let limit: Int?
     let next: String?
-    let offset: Int? 
+    let offset: Int?
     let previous: String?
     let total: Int?
 }
