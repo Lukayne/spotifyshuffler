@@ -1,0 +1,12 @@
+/* 
+  Localizable.strings
+  es
+
+  Created by Richard Smith on 2023-04-17.
+  
+*/
+
+"loginUserConnectionButtonTitleForConnected" = "Disconnect";
+"loginUserConnectionButtonTitleForNotConnected" = "Connect";
+"loginTextFieldTitleForConnected" = "You are connected";
+"loginTextFieldTitleForNotConnected" = "Connect your Spotify account!";
