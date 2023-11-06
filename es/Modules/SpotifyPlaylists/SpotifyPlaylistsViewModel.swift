@@ -8,16 +8,27 @@
 import Foundation
 import Combine
 
+struct ErrorSpotifyPlaylistsViewModel {
+    var shouldShowError: Bool
+    var errorTitle: String
+    var errorMessage: String
+}
+
 class SpotifyPlaylistsViewModel: ObservableObject {
     
+    typealias ResultSpotifyPlaylists = Result<SpotifyPlaylists, Error>
+    
     @Published private var spotifyPlaylistsAPIHandler: SpotifyAPIPlaylistsHandler = { SpotifyAPIPlaylistsHandler.shared } ()
-    @Published private var spotifyAPIDefaultHandler: SpotifyAPIDefaultHandler = { SpotifyAPIDefaultHandler.shared } ()
+    @Published private var spotifyDefaultViewModel: SpotifyDefaultViewModel = { SpotifyDefaultViewModel.shared } ()
     @Published private var currentUserProfile: SpotifyCurrentUserProfile?
+    
+    @Published private var apiError: APIError?
     
     @Published var numberOfPlaylists: Int = 0
     @Published var playlists: [Playlist] = [Playlist(name: "", description: "", playlistID: "", externalURLs: ExternalURLs(spotify: ""), tracks: Tracks(href: "", total: 0))]
     @Published var user: User = User(name: "")
-
+    @Published var errorSpotifyPlaylists: ErrorSpotifyPlaylistsViewModel = ErrorSpotifyPlaylistsViewModel(shouldShowError: false, errorTitle: "", errorMessage: "")
+    
     private var bag = Set<AnyCancellable>()
     
     init() {
@@ -31,30 +42,60 @@ class SpotifyPlaylistsViewModel: ObservableObject {
     }
     
     func onAppear() {
-        if (spotifyAPIDefaultHandler.appRemote.connectionParameters.accessToken != nil) {
+        if (spotifyDefaultViewModel.appRemote.connectionParameters.accessToken != nil) {
             getUserProfile()
         }
     }
     
     private func getUserProfile() {
-        spotifyPlaylistsAPIHandler.getCurrentUserProfile().sink(receiveValue: { [weak self] currentUserProfile in
-            self?.currentUserProfile = currentUserProfile
-            
-            if currentUserProfile.uri != nil {
-                self?.mapSpotifyUser(spotifyUser: currentUserProfile)
-                self?.getPlaylists()
-            }
-        }).store(in: &bag)
+        spotifyPlaylistsAPIHandler.getCurrentUserProfile()
+            .sink(receiveCompletion: { completion in
+                switch completion {
+                case .finished:
+                    break
+                case .failure(let error):
+                    if case APIError.validationError(let reason) = error {
+                        print(reason)
+                    }
+                    else if case APIError.serverError(statusCode: _, reason: let reason, retryAfter: _) = error {
+                        print(reason ?? "Server error")
+                    }
+                    else {
+                        print(error.localizedDescription)
+                    }
+                }
+            }, receiveValue: { [weak self] spotifyCurrentUserProfile in
+                self?.currentUserProfile = spotifyCurrentUserProfile
+                if self?.currentUserProfile?.id != nil {
+                    self?.mapSpotifyUser(spotifyUser: spotifyCurrentUserProfile)
+                    self?.getPlaylists()
+                }
+            }).store(in: &bag)
     }
     
     private func getPlaylists() {
         guard let userID = self.currentUserProfile?.id else {
             return
         }
-        
-        
+                
         spotifyPlaylistsAPIHandler.getUsersPlaylists(userID: userID, limit: 50, offset: 0)
-            .sink(receiveValue: { [weak self] spotifyPlaylists in
+            .sink(receiveCompletion: { completion in
+                
+                switch completion {
+                case .finished:
+                    break
+                case .failure(let error):
+                    if case APIError.validationError(let reason) = error {
+                        print(reason)
+                    }
+                    else if case APIError.serverError(statusCode: _, reason: let reason, retryAfter: _) = error {
+                        print(reason ?? "Server error")
+                    }
+                    else {
+                        print(error.localizedDescription)
+                    }
+                }
+            }, receiveValue: { [weak self] spotifyPlaylists in
                 self?.mapSpotifyPlaylists(spotifyPlaylists: spotifyPlaylists)
             }).store(in: &bag)
     }

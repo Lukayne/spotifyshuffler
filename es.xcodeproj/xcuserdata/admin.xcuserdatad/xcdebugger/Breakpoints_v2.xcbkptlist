@@ -3,4 +3,278 @@
    uuid = "1AA25EC4-C8C6-455A-8AE1-3CF26A04950A"
    type = "1"
    version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "FFF2A9FA-E79D-416E-B636-366503140A47"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "SpotifyAPIHandler/SpotifyAPIPlaylistHandler.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "60"
+            endingLineNumber = "60"
+            landmarkName = "getTracksForPlaylist(playlistID:market:fields:limit:offset:additionalTypes:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "FFF2A9FA-E79D-416E-B636-366503140A47 - f29ccae4f4954d2d"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #2 (Foundation.Data, __C.NSURLResponse) throws -&gt; (data: Foundation.Data, response: __C.NSURLResponse) in es.SpotifyAPIPlaylistHandler.getTracksForPlaylist(playlistID: Swift.String, market: Swift.String, fields: Swift.String, limit: Swift.Int, offset: Swift.Int, additionalTypes: Swift.String) -&gt; Combine.AnyPublisher&lt;es.SpotifyPlaylistItems, Swift.Error&gt;"
+                  moduleName = "es"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/admin/Programming/spot/es/SpotifyAPIHandler/SpotifyAPIPlaylistHandler.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "60"
+                  endingLineNumber = "60"
+                  offsetFromSymbolStart = "800">
+               </Location>
+               <Location
+                  uuid = "FFF2A9FA-E79D-416E-B636-366503140A47 - f29ccae4f4954d2d"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #2 (Foundation.Data, __C.NSURLResponse) throws -&gt; (data: Foundation.Data, response: __C.NSURLResponse) in es.SpotifyAPIPlaylistHandler.getTracksForPlaylist(playlistID: Swift.String, market: Swift.String, fields: Swift.String, limit: Swift.Int, offset: Swift.Int, additionalTypes: Swift.String) -&gt; Combine.AnyPublisher&lt;es.SpotifyPlaylistItems, Swift.Error&gt;"
+                  moduleName = "es"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/admin/Programming/spot/es/SpotifyAPIHandler/SpotifyAPIPlaylistHandler.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "60"
+                  endingLineNumber = "60"
+                  offsetFromSymbolStart = "808">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "B5497DD8-8181-43E1-BB1D-8979853DC818"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "SpotifyAPIHandler/SpotifyAPIPlaylistHandler.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "42"
+            endingLineNumber = "42"
+            landmarkName = "getTracksForPlaylist(playlistID:market:fields:limit:offset:additionalTypes:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "52481BBF-5101-4AE4-9800-CD1062B5700D"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "SpotifyAPIHandler/SpotifyAPIPlaylistHandler.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "66"
+            endingLineNumber = "66"
+            landmarkName = "getTracksForPlaylist(playlistID:market:fields:limit:offset:additionalTypes:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "200978E7-4552-4DB6-9A34-02B8D4D679BF"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "SpotifyAPIHandler/SpotifyAPIPlaylistHandler.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "57"
+            endingLineNumber = "57"
+            landmarkName = "getTracksForPlaylist(playlistID:market:fields:limit:offset:additionalTypes:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "8279DCCF-4320-4E44-A2DA-EBED472FE25D"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "SpotifyAPIHandler/SpotifyAPIPlaylistHandler.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "27"
+            endingLineNumber = "27"
+            landmarkName = "getTracksForPlaylist(playlistID:market:fields:limit:offset:additionalTypes:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "8279DCCF-4320-4E44-A2DA-EBED472FE25D - 9a3c4d0b8098a38f"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "es.SpotifyAPIPlaylistHandler.getTracksForPlaylist(playlistID: Swift.String, market: Swift.String, fields: Swift.String, limit: Swift.Int, offset: Swift.Int, additionalTypes: Swift.String) -&gt; Combine.AnyPublisher&lt;es.SpotifyPlaylistItems, Swift.Error&gt;"
+                  moduleName = "es"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/admin/Programming/spot/es/SpotifyAPIHandler/SpotifyAPIPlaylistHandler.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "27"
+                  endingLineNumber = "27"
+                  offsetFromSymbolStart = "4748">
+               </Location>
+               <Location
+                  uuid = "8279DCCF-4320-4E44-A2DA-EBED472FE25D - 9a3c4d0b8098a38f"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "es.SpotifyAPIPlaylistHandler.getTracksForPlaylist(playlistID: Swift.String, market: Swift.String, fields: Swift.String, limit: Swift.Int, offset: Swift.Int, additionalTypes: Swift.String) -&gt; Combine.AnyPublisher&lt;es.SpotifyPlaylistItems, Swift.Error&gt;"
+                  moduleName = "es"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/admin/Programming/spot/es/SpotifyAPIHandler/SpotifyAPIPlaylistHandler.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "27"
+                  endingLineNumber = "27"
+                  offsetFromSymbolStart = "4840">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "1DAB0A4B-AE56-45DA-96EC-CE36FB593A1D"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "SpotifyAPIHandler/SpotifyAPIPlaylistHandler.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "32"
+            endingLineNumber = "32"
+            landmarkName = "getTracksForPlaylist(playlistID:market:fields:limit:offset:additionalTypes:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "1DAB0A4B-AE56-45DA-96EC-CE36FB593A1D - 9a3c4d0b8098a32a"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "es.SpotifyAPIPlaylistHandler.getTracksForPlaylist(playlistID: Swift.String, market: Swift.String, fields: Swift.String, limit: Swift.Int, offset: Swift.Int, additionalTypes: Swift.String) -&gt; Combine.AnyPublisher&lt;es.SpotifyPlaylistItems, Swift.Error&gt;"
+                  moduleName = "es"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/admin/Programming/spot/es/SpotifyAPIHandler/SpotifyAPIPlaylistHandler.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "32"
+                  endingLineNumber = "32"
+                  offsetFromSymbolStart = "4500">
+               </Location>
+               <Location
+                  uuid = "1DAB0A4B-AE56-45DA-96EC-CE36FB593A1D - 9a3c4d0b8098a32a"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "es.SpotifyAPIPlaylistHandler.getTracksForPlaylist(playlistID: Swift.String, market: Swift.String, fields: Swift.String, limit: Swift.Int, offset: Swift.Int, additionalTypes: Swift.String) -&gt; Combine.AnyPublisher&lt;es.SpotifyPlaylistItems, Swift.Error&gt;"
+                  moduleName = "es"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/admin/Programming/spot/es/SpotifyAPIHandler/SpotifyAPIPlaylistHandler.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "32"
+                  endingLineNumber = "32"
+                  offsetFromSymbolStart = "4592">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "1F12F0C3-65EA-4F4C-8E67-D20F274387D5"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "SpotifyAPIHandler/SpotifyAPIPlaylistHandler.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "48"
+            endingLineNumber = "48"
+            landmarkName = "getTracksForPlaylist(playlistID:market:fields:limit:offset:additionalTypes:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "7E549924-3E42-4237-BC6B-9F8BF62EC301"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "SpotifyAPIHandler/SpotifyAPIPlaylistHandler.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "82"
+            endingLineNumber = "82"
+            landmarkName = "getTracksForPlaylist(playlistID:market:fields:limit:offset:additionalTypes:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "E3D4D5BC-34A7-4998-B6A8-9B6629B0C27F"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "SpotifyAPIHandler/SpotifyAPIPlaylistHandler.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "90"
+            endingLineNumber = "90"
+            landmarkName = "getTracksForPlaylist(playlistID:market:fields:limit:offset:additionalTypes:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "E3D4D5BC-34A7-4998-B6A8-9B6629B0C27F - 22c2fb09cadbc1d0"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #4 (Foundation.Data) throws -&gt; es.SpotifyPlaylistItems in es.SpotifyAPIPlaylistHandler.getTracksForPlaylist(playlistID: Swift.String, market: Swift.String, fields: Swift.String, limit: Swift.Int, offset: Swift.Int, additionalTypes: Swift.String) -&gt; Combine.AnyPublisher&lt;es.SpotifyPlaylistItems, Swift.Error&gt;"
+                  moduleName = "es"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/admin/Programming/spot/es/SpotifyAPIHandler/SpotifyAPIPlaylistHandler.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "90"
+                  endingLineNumber = "90"
+                  offsetFromSymbolStart = "212">
+               </Location>
+               <Location
+                  uuid = "E3D4D5BC-34A7-4998-B6A8-9B6629B0C27F - 22c2fb09cadbc1d0"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #4 (Foundation.Data) throws -&gt; es.SpotifyPlaylistItems in es.SpotifyAPIPlaylistHandler.getTracksForPlaylist(playlistID: Swift.String, market: Swift.String, fields: Swift.String, limit: Swift.Int, offset: Swift.Int, additionalTypes: Swift.String) -&gt; Combine.AnyPublisher&lt;es.SpotifyPlaylistItems, Swift.Error&gt;"
+                  moduleName = "es"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/admin/Programming/spot/es/SpotifyAPIHandler/SpotifyAPIPlaylistHandler.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "90"
+                  endingLineNumber = "90"
+                  offsetFromSymbolStart = "296">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
 </Bucket>

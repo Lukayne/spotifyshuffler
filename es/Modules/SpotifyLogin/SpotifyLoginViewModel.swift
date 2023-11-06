@@ -11,7 +11,7 @@ import SwiftUI
 
 class SpotifyLoginViewModel: ObservableObject {
     
-    @Published private var spotifyAPIDefaultHandler: SpotifyAPIDefaultHandler = { SpotifyAPIDefaultHandler.shared } ()
+    @Published private var spotifyDefaultViewModel: SpotifyDefaultViewModel = { SpotifyDefaultViewModel.shared } ()
     
     @Published var authState: AuthenticationState = AuthenticationState.idle
     
@@ -29,16 +29,16 @@ class SpotifyLoginViewModel: ObservableObject {
     }
     
     func connectUser() {
-        self.spotifyAPIDefaultHandler.connectUser()
+        self.spotifyDefaultViewModel.connectUser()
     }
     
     private func bind() {
-        spotifyAPIDefaultHandler.objectWillChange.sink(receiveValue: { [weak self] _ in
+        spotifyDefaultViewModel.objectWillChange.sink(receiveValue: { [weak self] _ in
             self?.objectWillChange.send()
         }).store(in: &bag)
         
         
-        spotifyAPIDefaultHandler.$authenticationState
+        spotifyDefaultViewModel.$authenticationState
             .sink { [weak self] authState in
                 self?.authState = authState
             }.store(in: &bag)

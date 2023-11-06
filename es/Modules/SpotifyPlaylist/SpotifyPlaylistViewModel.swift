@@ -24,7 +24,7 @@ class SpotifyPlaylistViewModel: ObservableObject {
     @Published private var spotifyPlaylistAPIHandler: SpotifyAPIPlaylistHandler = { SpotifyAPIPlaylistHandler.shared } ()
     @Published private var playlist: Playlist = Playlist(name: "", description: "", playlistID: "", externalURLs: ExternalURLs(spotify: ""), tracks: Tracks(href: "", total: 0))
     @Published private var alreadyShuffledIndexes: [Int] = [Int]()
-    @Published private var spotifyAPIDefaultHandler: SpotifyAPIDefaultHandler = {SpotifyAPIDefaultHandler.shared } ()
+    @Published private var spotifyDefaultViewModel: SpotifyDefaultViewModel = { SpotifyDefaultViewModel.shared } ()
     
     private var bag = Set<AnyCancellable>()
     
@@ -35,11 +35,11 @@ class SpotifyPlaylistViewModel: ObservableObject {
             self?.objectWillChange.send()
         }).store(in: &bag)
         
-        spotifyAPIDefaultHandler.objectWillChange.sink(receiveValue: { [weak self] _ in
+        spotifyDefaultViewModel.objectWillChange.sink(receiveValue: { [weak self] _ in
             self?.objectWillChange.send()
         }).store(in: &bag)
         
-        spotifyAPIDefaultHandler.$currentSongBeingPlayed.sink { [weak self] song in
+        spotifyDefaultViewModel.$currentSongBeingPlayed.sink { [weak self] song in
             self?.songBeingPlayed = song 
         }.store(in: &bag)
     }
@@ -61,13 +61,31 @@ class SpotifyPlaylistViewModel: ObservableObject {
     
     private func getTracks(limit: Int, offset: Int) {
         spotifyPlaylistAPIHandler.getTracksForPlaylist(playlistID: playlist.playlistID, market: "", fields: "", limit: limit, offset: offset, additionalTypes: "")
-            .sink { [weak self] spotifyPlaylistItems in
+            .sink(receiveCompletion: { completion in
+                switch completion {
+                case .finished:
+                    break
+                case .failure(let error):
+                    if case APIError.validationError(let reason) = error {
+                        print(reason)
+                    }
+                    else if case APIError.serverError(statusCode: _, reason: let reason, retryAfter: _) = error {
+                        print(reason ?? "Server error")
+                    }
+                    else if case APIError.badOrExpiredToken(let reason) = error {
+                        print (reason)
+                    }
+                    else {
+                        print(error.localizedDescription)
+                    }
+                }
+            }, receiveValue: { [weak self] spotifyPlaylistItems in
                 if self?.numberOfTracksLoaded != self?.tracks.total {
                     self?.mapTracks(spotifyPlaylistItems: spotifyPlaylistItems)
                 } else {
                     self?.state = .loadedAllSongs
                 }
-            }.store(in: &bag)
+            }).store(in: &bag)
     }
     
     private func mapTracks(spotifyPlaylistItems: SpotifyPlaylistItems) {
@@ -132,10 +150,10 @@ class SpotifyPlaylistViewModel: ObservableObject {
     }
     
     func pause() {
-        spotifyAPIDefaultHandler.pausePlayback()
+        spotifyDefaultViewModel.pausePlayback()
     }
     
     func resume() {
-        spotifyAPIDefaultHandler.startPlayback()
+        spotifyDefaultViewModel.startPlayback()
     }
 }

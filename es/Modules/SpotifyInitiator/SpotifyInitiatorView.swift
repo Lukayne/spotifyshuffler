@@ -10,19 +10,19 @@ import Combine
 
 @main
 struct SpotifyInitiatorView: App {
-    @ObservedObject var spotifyAPIDefaultHandler = { SpotifyAPIDefaultHandler.shared } ()
+    @ObservedObject var spotifyDefaultViewModel = { SpotifyDefaultViewModel.shared } ()
 
     var body: some Scene {
         WindowGroup {
             SpotifyLoginView()
                 .onOpenURL { url in
-                    spotifyAPIDefaultHandler.onOpenURL(url: url)
+                    spotifyDefaultViewModel.onOpenURL(url: url)
                 }
                 .onAppear {
-                    spotifyAPIDefaultHandler.didBecomeActive()
+                    spotifyDefaultViewModel.didBecomeActive()
                 }
                 .onDisappear {
-                    spotifyAPIDefaultHandler.willResignActive()
+                    spotifyDefaultViewModel.willResignActive()
                 }
         }
     }

@@ -35,6 +35,11 @@ struct SpotifyPlaylistsView: View {
                 .navigationTitle("Playlists for \(spotifyPlaylistsViewModel.user.name)")
             }
         }
+        .alert(isPresented: $spotifyPlaylistsViewModel.errorSpotifyPlaylists.shouldShowError, content: {
+            Alert(title: Text(spotifyPlaylistsViewModel.errorSpotifyPlaylists.errorTitle), message: Text(spotifyPlaylistsViewModel.errorSpotifyPlaylists.errorMessage), dismissButton: Alert.Button.default(Text("Ok"), action: {
+                print("dismissed")
+            }))
+        })
         .navigationBarTitleDisplayMode(.inline)
         .onAppear(perform: spotifyPlaylistsViewModel.onAppear)
     }
