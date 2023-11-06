@@ -12,8 +12,9 @@ SpotifyShuffler showcases the usage of `MVVM` by using both `Combine` and `Swift
 2. In the `Info.plist` file add your own values in: `CFBundleURLName` and `CFBundleURLSchemes`. 
 3. The application will only run if you run it on a physical device. 
 
-#### So what is the point of SpotifyShuffler? 
 ## The gist of SpotifyShuffler is letting the user **truly** shuffle any of their playlists. 
+
+#### Below is a more detailed list of what **SpotifyShuffler** does: 
 
 - Prompts the user to connect with Spotify. 
 - Fetches the users playlists and presents them to the user in a list. 
