@@ -14,27 +14,28 @@ struct SpotifyPlaylistsView: View {
     var body: some View {
         NavigationView {
             List(spotifyPlaylistsViewModel.playlists) { playlist in
-                VStack {
+                VStack(alignment: .leading, spacing: 12) {
                     Text("Name of the playlist: \(playlist.name)")
+                        .multilineTextAlignment(.leading)
                         .font(.title3)
-                        .multilineTextAlignment(.leading)
-                    Spacer()
                     Text("Description: \(playlist.description)")
-                        .font(.subheadline)
                         .multilineTextAlignment(.leading)
-                    Spacer()
+                        .font(.subheadline)
                     Text("Number of songs: \(playlist.tracks.total)")
-                        .font(.subheadline)
                         .multilineTextAlignment(.leading)
+                        .font(.subheadline)
                 }
                 .contentShape(Rectangle())
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding(12)
                 
                 NavigationLink(destination: SpotifyPlaylistView().environmentObject(SpotifyPlaylistViewModel(playlist: playlist))) {
                     Text("Shuffle \(playlist.name)")
                 }
+                .navigationTitle("Playlists for \(spotifyPlaylistsViewModel.user.name)")
             }
         }
-//        .navigationTitle("Playlists for \(spotifyPlaylistsViewModel.user.name)")
+        .navigationBarTitleDisplayMode(.inline)
         .onAppear(perform: spotifyPlaylistsViewModel.onAppear)
     }
 }

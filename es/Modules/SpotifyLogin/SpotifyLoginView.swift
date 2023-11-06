@@ -8,10 +8,10 @@
 import SwiftUI
 
 struct SpotifyLoginView: View {
-    @StateObject var spotifyLoginViewModel = SpotifyLoginViewModel()
+    
+    @ObservedObject var spotifyLoginViewModel = SpotifyLoginViewModel()
     
     var body: some View {
-        
         switch spotifyLoginViewModel.authState {
         case .idle:
             LazyVStack {

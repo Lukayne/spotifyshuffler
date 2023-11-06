@@ -19,21 +19,29 @@ class SpotifyPlaylistViewModel: ObservableObject {
     @Published var numberOfTracksLoaded: Int = 0
     @Published var remainingTracksToLoad: Int = 0
     @Published var state: State = State.notInitiated
+    @Published var songBeingPlayed: String = ""
     
     @Published private var spotifyPlaylistAPIHandler: SpotifyAPIPlaylistHandler = { SpotifyAPIPlaylistHandler.shared } ()
     @Published private var playlist: Playlist = Playlist(name: "", description: "", playlistID: "", externalURLs: ExternalURLs(spotify: ""), tracks: Tracks(href: "", total: 0))
     @Published private var alreadyShuffledIndexes: [Int] = [Int]()
+    @Published private var spotifyAPIDefaultHandler: SpotifyAPIDefaultHandler = {SpotifyAPIDefaultHandler.shared } ()
     
-    private var cancellable: AnyCancellable?
-    private var playListItemsCancellable: AnyCancellable?
     private var bag = Set<AnyCancellable>()
     
     init(playlist: Playlist) {
         self.playlist = playlist
         
-        cancellable = spotifyPlaylistAPIHandler.objectWillChange.sink(receiveValue: { _ in
+        spotifyPlaylistAPIHandler.objectWillChange.sink(receiveValue: { _ in
             self.objectWillChange.send()
-        })
+        }).store(in: &bag)
+        
+        spotifyAPIDefaultHandler.objectWillChange.sink(receiveValue: { _ in
+            self.objectWillChange.send()
+        }).store(in: &bag)
+        
+        spotifyAPIDefaultHandler.$currentSongBeingPlayed.sink { song in
+            self.songBeingPlayed = song 
+        }.store(in: &bag)
     }
     
     func onAppear() {
@@ -48,10 +56,10 @@ class SpotifyPlaylistViewModel: ObservableObject {
     }
     
     private func getTracks(limit: Int, offset: Int) {
-        playListItemsCancellable = spotifyPlaylistAPIHandler.getTracksForPlaylist(playlistID: playlist.playlistID, market: "", fields: "", limit: limit, offset: offset, additionalTypes: "")
+        spotifyPlaylistAPIHandler.getTracksForPlaylist(playlistID: playlist.playlistID, market: "", fields: "", limit: limit, offset: offset, additionalTypes: "")
             .sink { spotifyPlaylistItems in
                 self.mapTracks(spotifyPlaylistItems: spotifyPlaylistItems)
-            }
+            }.store(in: &bag)
     }
     
     private func mapTracks(spotifyPlaylistItems: SpotifyPlaylistItems) {
@@ -67,31 +75,31 @@ class SpotifyPlaylistViewModel: ObservableObject {
             self.tracks.trackObject.insert(contentsOf: trackObjects, at: self.tracks.trackObject.endIndex)
         }
         
-        self.numberOfTracksLoaded = self.tracks.trackObject.count
+        numberOfTracksLoaded = tracks.trackObject.count
         
-        if self.tracks.total != self.tracks.trackObject.count {
-            self.loadAllTracks(numberOfTracks: remainingTracksToLoad)
+        if tracks.total != tracks.trackObject.count {
+            loadAllTracks(numberOfTracks: remainingTracksToLoad)
         } else {
-            self.state = .loadedAllSongs
+            state = .loadedAllSongs
         }
     }
     
-    func loadAllTracks(numberOfTracks: Int) {
+    private func loadAllTracks(numberOfTracks: Int) {
         var limit = 50
         
         if numberOfTracks <= 50 {
             limit = numberOfTracks
-            self.state = .loading
-            self.getTracks(limit: limit, offset: 0)
+            state = .loading
+            getTracks(limit: limit, offset: 0)
             return
         }
-        
+
         if numberOfTracksLoaded == numberOfTracks {
-            self.state = .loadedAllSongs
+            state = .loadedAllSongs
             return
         } else {
-            self.state = .loading
-            self.getTracks(limit: limit, offset: numberOfTracksLoaded)
+            state = .loading
+            getTracks(limit: limit, offset: numberOfTracksLoaded)
         }
     }
     
@@ -108,7 +116,7 @@ class SpotifyPlaylistViewModel: ObservableObject {
     private func shuffleRandomSong(randomIndex: Int) {
         let randomTrack = self.tracks.trackObject[randomIndex]
         
-        self.spotifyPlaylistAPIHandler.shuffleSong(songURI: randomTrack.uri)
+        spotifyPlaylistAPIHandler.shuffleSong(songURI: randomTrack.uri)
     }
     
     private func pauseSong() {
@@ -116,14 +124,14 @@ class SpotifyPlaylistViewModel: ObservableObject {
     }
     
     func playSong() {
-        shuffleRandomSong(randomIndex: self.getRandomNumber())
+        shuffleRandomSong(randomIndex: getRandomNumber())
     }
     
-    private func nextSong() {
-        
+    func pause() {
+        spotifyAPIDefaultHandler.pausePlayback()
     }
     
-    private func previousSong() {
-        
+    func resume() {
+        spotifyAPIDefaultHandler.startPlayback()
     }
 }

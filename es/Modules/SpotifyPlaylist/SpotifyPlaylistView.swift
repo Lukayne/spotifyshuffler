@@ -12,25 +12,38 @@ struct SpotifyPlaylistView: View {
     @EnvironmentObject var spotifyPlaylistViewModel: SpotifyPlaylistViewModel
     
     var body: some View {
-        Text("Playlist: \(spotifyPlaylistViewModel.tracks.name)")
-        Text("Number of songs: \(spotifyPlaylistViewModel.tracks.total)")
-        Text("Number of songs loaded: \(spotifyPlaylistViewModel.numberOfTracksLoaded)")
-        
+        VStack {
+            Text("Playlist: \(spotifyPlaylistViewModel.tracks.name)")
+            Text("Number of songs: \(spotifyPlaylistViewModel.tracks.total)")
+            Text("Number of songs loaded: \(spotifyPlaylistViewModel.numberOfTracksLoaded)")
+        }
         switch spotifyPlaylistViewModel.state {
         case .loading:
             Text("Loading: \(spotifyPlaylistViewModel.remainingTracksToLoad) songs")
         case .loadedAllSongs:
-            Button("Shuffle a song") {
-                spotifyPlaylistViewModel.playSong()
+            VStack {
+                HStack {
+                    Button("Resume") {
+                        spotifyPlaylistViewModel.resume()
+                    }
+                    Button("Shuffle a song") {
+                        spotifyPlaylistViewModel.playSong()
+                    }
+                    Button("Pause") {
+                        spotifyPlaylistViewModel.pause()
+                    }
+                }
+                Text("Currently playing: \(spotifyPlaylistViewModel.songBeingPlayed)")
             }
         case .notInitiated:
             Text("")
         }
         
         List(spotifyPlaylistViewModel.tracks.trackObject) { track in
-            VStack {
+            VStack(alignment: .leading, spacing: 12) {
                 Text("Song: \(track.name)")
                 Text("URI: \(track.uri)")
+                    .font(.footnote)
             }
         }
         .onAppear(perform: spotifyPlaylistViewModel.onAppear)

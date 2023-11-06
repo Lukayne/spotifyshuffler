@@ -1,5 +1,5 @@
 //
-//  SpotifyInitiatorViewModel.swift
+//  SpotifyAPIDefaultHandler.swift
 //  es
 //
 //  Created by Richard Smith on 2023-04-17.
@@ -25,6 +25,7 @@ class SpotifyAPIDefaultHandler: NSObject, ObservableObject, SPTSessionManagerDel
     }
     
     @Published var authenticationState: AuthenticationState = .idle
+    @Published var currentSongBeingPlayed: String = ""
     
     var responseCode: String? {
         didSet {
@@ -159,6 +160,14 @@ class SpotifyAPIDefaultHandler: NSObject, ObservableObject, SPTSessionManagerDel
         self.authenticationState = .loading
     }
     
+    func pausePlayback() {
+        appRemote.playerAPI?.pause()
+    }
+    
+    func startPlayback() {
+        appRemote.playerAPI?.resume()
+    }
+    
     // MARK: - SPTSessionManagerDelegate
     
     func sessionManager(manager: SPTSessionManager, didFailWith error: Error) {
@@ -190,16 +199,19 @@ class SpotifyAPIDefaultHandler: NSObject, ObservableObject, SPTSessionManagerDel
     }
     
     func appRemote(_ appRemote: SPTAppRemote, didDisconnectWithError error: Error?) {
+        connectUser()
         lastPlayerState = nil
     }
     
     func appRemote(_ appRemote: SPTAppRemote, didFailConnectionAttemptWithError error: Error?) {
+        connectUser()
         lastPlayerState = nil
     }
     
     // MARK: - SPTAppRemotePlayerAPIDelegate
     
     func playerStateDidChange(_ playerState: SPTAppRemotePlayerState) {
-        
+        lastPlayerState = playerState
+        currentSongBeingPlayed = playerState.track.name
     }
 }
