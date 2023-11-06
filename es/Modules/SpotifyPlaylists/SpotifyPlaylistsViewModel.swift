@@ -12,14 +12,13 @@ class SpotifyPlaylistsViewModel: ObservableObject {
     
     @Published private var spotifyPlaylistsAPIHandler: SpotifyAPIPlaylistsHandler = { SpotifyAPIPlaylistsHandler.shared } ()
     @Published private var spotifyInit: SpotifyInitiatorViewModel = { SpotifyInitiatorViewModel.shared } ()
-    @Published var playLists: SpotifyPlaylists = SpotifyPlaylists(href: "", items: [SimplifiedPlaylistObject(collaborative: false, description: "", externalURLs: SpotifyExternalURLs(spotify: ""), href: "", id: "", images: [SpotifyImages(url: "", height: 0, width: 0)], name: "", owner: SpotifyOwner(externalURLs: SpotifyExternalURLs(spotify: ""), followers: SpotifyFollowers(href: "", total: 0), href: "", id: "", type: "", uri: "", displayName: ""), public: false, snapshotID: "", tracks: SpotifyTracks(href: "", total: 0), type: "", uri: "", primaryColor: 0)], limit: 0, next: "", offset: 0, previous: "", total: 0)
+//    @Published var playLists: SpotifyPlaylists = SpotifyPlaylists(href: "", items: [SimplifiedPlaylistObject(collaborative: false, description: "", externalURLs: SpotifyExternalURLs(spotify: ""), href: "", id: "", images: [SpotifyImages(url: "", height: 0, width: 0)], name: "", owner: SpotifyOwner(externalURLs: SpotifyExternalURLs(spotify: ""), followers: SpotifyFollowers(href: "", total: 0), href: "", id: "", type: "", uri: "", displayName: ""), public: false, snapshotID: "", tracks: SpotifyTracks(href: "", total: 0), type: "", uri: "", primaryColor: 0)], limit: 0, next: "", offset: 0, previous: "", total: 0)
     @Published private var currentUserProfile: SpotifyCurrentUserProfile?
     
     @Published var numberOfPlaylists: Int = 0
-    @Published var mappedPlaylists: Playlists = Playlists(name: "", description: "", externalURLs: ExternalURLs(spotify: ""), tracks: Tracks(href: "", total: 0
-                                                                                                                ))
-    
-    
+    @Published var playlists: [Playlist] = [Playlist(name: "", description: "", playlistID: "", externalURLs: ExternalURLs(spotify: ""), tracks: Tracks(href: "", total: 0))]
+    @Published var user: User = User(name: "")
+
     private var cancellable: AnyCancellable?
     private var playlistsCancellable: AnyCancellable?
     private var bag = Set<AnyCancellable>()
@@ -30,38 +29,46 @@ class SpotifyPlaylistsViewModel: ObservableObject {
         })
     }
     
-    
     func onAppear() {
         if (spotifyInit.appRemote.connectionParameters.accessToken != nil) {
             getUserProfile()
         }
     }
     
-    func getUserProfile() {
+    private func getUserProfile() {
         cancellable = spotifyPlaylistsAPIHandler.getUsersPlaylists().sink(receiveValue: { currentUserProfile in
             self.currentUserProfile = currentUserProfile
             
             if currentUserProfile.uri != nil {
+                self.mapSpotifyUser(spotifyUser: currentUserProfile)
                 self.getPlaylists()
             }
         })
     }
     
-    func getPlaylists() {
-        guard let userURI = self.currentUserProfile?.uri else {
+    private func getPlaylists() {
+        guard let userID = self.currentUserProfile?.id else {
             return
         }
         
-        spotifyPlaylistsAPIHandler.getUsersPlaylists(userID: "ricci123", limit: 50, offset: 0)
-            .compactMap { $0 }
-            .assign(to: &$playLists)
-    }
-    
-    private func setNumberOfPlaylists() {
-        self.numberOfPlaylists = playLists.total ?? 0
-    }
-    
-    private func mapPlaylist() {
         
+        playlistsCancellable = spotifyPlaylistsAPIHandler.getUsersPlaylists(userID: userID, limit: 50, offset: 0)
+            .sink(receiveValue: { spotifyPlaylists in
+                self.mapSpotifyPlaylists(spotifyPlaylists: spotifyPlaylists)
+            })
+    }
+    
+    private func mapSpotifyPlaylists(spotifyPlaylists: SpotifyPlaylists) {
+        let playLists: [Playlist] = spotifyPlaylists.items.map { (playlist) in
+            return Playlist(name: playlist?.name ?? "", description: playlist?.description ?? "", playlistID: playlist?.id ?? "", externalURLs: ExternalURLs(spotify: playlist?.externalURLs?.spotify ?? ""), tracks: Tracks(href: playlist?.tracks?.href ?? "", total: playlist?.tracks?.total ?? 0))
+        }
+        
+        self.playlists = playLists
+    }
+    
+    private func mapSpotifyUser(spotifyUser: SpotifyCurrentUserProfile) {
+        currentUserProfile.map { (user) in
+            self.user.name = user.id ?? ""
+        }
     }
 }

@@ -7,11 +7,12 @@
 
 import Foundation
 
-struct Playlists: Identifiable {
+struct Playlist: Identifiable {
     let id = UUID()
     
     var name: String
     var description: String
+    var playlistID: String
     var externalURLs: ExternalURLs
     var tracks: Tracks
 }

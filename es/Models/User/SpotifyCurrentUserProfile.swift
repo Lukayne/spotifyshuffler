@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct SpotifyCurrentUserProfile: Codable {
+struct SpotifyCurrentUserProfile: Decodable {
     
     enum CodingKeys: String, CodingKey {
         case country, email, followers, href, id, images, product, type, uri
