@@ -9,10 +9,13 @@ import SwiftUI
 
 struct SpotifyPlaylistsView: View {
     
+    @StateObject var spotifyPlaylistsViewModel = SpotifyPlaylistsViewModel()
+    
     var body: some View {
         List {
             
         }
+        .onAppear(perform: spotifyPlaylistsViewModel.onAppear)
     }
 }
 

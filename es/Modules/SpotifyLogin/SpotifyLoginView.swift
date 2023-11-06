@@ -11,15 +11,25 @@ struct SpotifyLoginView: View {
     @StateObject var spotifyLoginViewModel = SpotifyLoginViewModel()
     
     var body: some View {
-        LazyVStack {
-            Text(spotifyLoginViewModel.loginTitle)
-                .font(.title)
-                .padding()
-            Button {
-                self.spotifyLoginViewModel.changeUserConnectionStatus()
-            } label: {
-                Text(self.spotifyLoginViewModel.userConnectionButtonTitle)
+        
+        switch spotifyLoginViewModel.authState {
+        case .idle:
+            LazyVStack {
+                Text(spotifyLoginViewModel.loginTitle)
+                    .font(.title)
+                    .padding()
+                Button {
+                    self.spotifyLoginViewModel.changeUserConnectionStatus()
+                } label: {
+                    Text(self.spotifyLoginViewModel.userConnectionButtonTitle)
+                }
             }
+        case .loading:
+            ProgressView()
+        case .error:
+            Text("ERROR")
+        case .authorized:
+            SpotifyPlaylistsView()
         }
     }
 }

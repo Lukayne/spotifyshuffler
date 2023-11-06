@@ -10,20 +10,12 @@ import Combine
 
 @main
 struct SpotifyInitiatorView: App {
-    @StateObject var spotifyInitiatorViewModel = SpotifyInitiatorViewModel()
- 
+    @UIApplicationDelegateAdaptor(AppDelegate.self) private var appDelegate
+    @StateObject var spotifyInitiatorViewModel = { SpotifyInitiatorViewModel.shared } ()
+
     var body: some Scene {
         WindowGroup {
             SpotifyLoginView()
-                .onReceive(NotificationCenter.default.publisher(for: UIApplication.didBecomeActiveNotification)) { _ in
-                    spotifyInitiatorViewModel.didBecomeActive()
-                }
-                .onReceive(NotificationCenter.default.publisher(for: UIApplication.willEnterForegroundNotification)) { _ in
-                    print("applicationWillEnterForeground")
-                }
-                .onReceive(NotificationCenter.default.publisher(for: UIApplication.willResignActiveNotification)) { _ in
-                    spotifyInitiatorViewModel.willResignActive()
-                }
         }
     }
 }

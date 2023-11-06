@@ -2,35 +2,25 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>CFBundleURLTypes</key>
-	<array>
-		<dict>
-			<key>CFBundleTypeRole</key>
-			<string>Editor</string>
-			<key>CFBundleURLName</key>
-			<string>rs.ees.es</string>
-			<key>CFBundleURLSchemes</key>
-			<array>
-				<string>es</string>
-			</array>
-		</dict>
-	</array>
-    <key>NSAppTransportSecurity</key>
+    <key>CFBundleURLTypes</key>
+    <array>
         <dict>
-            <key>NSExceptionDomains</key>
-            <dict>
-                <key>spotify.com</key>
-                <dict>
-                    <key>NSExceptionAllowsInsecureHTTPLoads</key>
-                    <true/>
-                    <key>NSIncludesSubdomains</key>
-                    <true/>
-                </dict>
-            </dict>
+            <key>CFBundleURLName</key>
+            <string>rs.ees.es</string>
+            <key>CFBundleURLSchemes</key>
+            <array>
+                <string>es</string>
+            </array>
         </dict>
-        <key>LSApplicationQueriesSchemes</key>
-        <array>
-            <string>spotify</string>
-        </array>
+    </array>
+    <key>LSApplicationQueriesSchemes</key>
+    <array>
+        <string>spotify</string>
+    </array>
+    <key>NSAppTransportSecurity</key>
+    <dict>
+        <key>NSAllowsArbitraryLoads</key>
+        <true/>
+    </dict>
 </dict>
 </plist>
