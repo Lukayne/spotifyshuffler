@@ -11,27 +11,23 @@ import SwiftUI
 
 class SpotifyLoginViewModel: ObservableObject {
     
-    @Published private var spotifyCoordinatorViewModel = SpotifyCoordinatorViewModel()
-    @Published private var spotifyInitiatorViewModel: SpotifyInitiatorViewModel = { SpotifyInitiatorViewModel.shared } ()
+    @Published private var spotifyInitiatorViewModel: SpotifyAPIDefaultHandler = { SpotifyAPIDefaultHandler.shared } ()
     
-    @Published var loginTitle: String = ""
-    @Published var userConnectionButtonTitle: String = ""
     @Published var authState: AuthenticationState = AuthenticationState.idle
+    
+    var loginTitle = String(localized: "loginTextFieldTitleForNotConnected")
+    var userConnectionButtonTitle = String(localized: "loginUserConnectionButtonTitleForNotConnected")
 
-    var cancellable: AnyCancellable?
+    private var cancellable: AnyCancellable?
 
-    var bag = Set<AnyCancellable>()
+    private var bag = Set<AnyCancellable>()
     
     init() {
         bind()
     }
     
-    func changeUserConnectionStatus() {
-        self.connectUser()
-    }
-    
-    private func connectUser() {
-        self.spotifyInitiatorViewModel.userInteraction()
+    func connectUser() {
+        self.spotifyInitiatorViewModel.connectUser()
     }
     
     private func bind() {
@@ -44,13 +40,5 @@ class SpotifyLoginViewModel: ObservableObject {
             .sink { authState in
                 self.authState = authState
             }.store(in: &bag)
-        
-        if !spotifyCoordinatorViewModel.isUserConnected {
-            self.loginTitle = String(localized: "loginTextFieldTitleForNotConnected")
-            self.userConnectionButtonTitle = String(localized: "loginUserConnectionButtonTitleForNotConnected")
-        } else {
-            self.loginTitle = String(localized: "loginTextFieldTitleForConnected")
-            self.userConnectionButtonTitle = String(localized: "loginUserConnectionButtonTitleForConnected")
-        }
     }
 }

@@ -19,7 +19,7 @@ struct SpotifyLoginView: View {
                     .font(.title)
                     .padding()
                 Button {
-                    self.spotifyLoginViewModel.changeUserConnectionStatus()
+                    self.spotifyLoginViewModel.connectUser()
                 } label: {
                     Text(self.spotifyLoginViewModel.userConnectionButtonTitle)
                 }

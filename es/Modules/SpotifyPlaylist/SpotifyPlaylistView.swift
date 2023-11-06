@@ -20,16 +20,8 @@ struct SpotifyPlaylistView: View {
         case .loading:
             Text("Loading: \(spotifyPlaylistViewModel.remainingTracksToLoad) songs")
         case .loadedAllSongs:
-            HStack {
-                Button("Previous") {
-                    
-                }
-                Button("Play") {
-                    spotifyPlaylistViewModel.playSong()
-                }
-                Button("Next") {
-                    
-                }
+            Button("Shuffle a song") {
+                spotifyPlaylistViewModel.playSong()
             }
         case .notInitiated:
             Text("")

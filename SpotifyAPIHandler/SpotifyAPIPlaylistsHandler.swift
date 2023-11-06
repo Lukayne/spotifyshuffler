@@ -11,13 +11,13 @@ class SpotifyAPIPlaylistsHandler: NSObject, ObservableObject {
     
     static let shared = SpotifyAPIPlaylistsHandler()
     
-    private let spotifyInit = { SpotifyInitiatorViewModel.shared }()
+    private let spotifyInit = { SpotifyAPIDefaultHandler.shared }()
 
     private override init() {
         
     }
 
-    func getUsersPlaylists() -> AnyPublisher<SpotifyCurrentUserProfile, Never> {
+    func getCurrentUserProfile() -> AnyPublisher<SpotifyCurrentUserProfile, Never> {
         let emptySpotifyCurrentUserProfile = SpotifyCurrentUserProfile(country: nil, displayName: nil, email: nil, explicitContent: nil, externalURLs: nil, followers: nil, href: nil, id: nil, images: nil, product: nil, type: nil, uri: nil)
         let url = URL(string: "https://api.spotify.com/v1/me")
         

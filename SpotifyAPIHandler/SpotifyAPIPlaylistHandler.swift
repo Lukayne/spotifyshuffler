@@ -12,7 +12,7 @@ class SpotifyAPIPlaylistHandler: NSObject, ObservableObject {
     
     static let shared = SpotifyAPIPlaylistHandler()
     
-    private let spotifyInit = { SpotifyInitiatorViewModel.shared }()
+    private let spotifyInit = { SpotifyAPIDefaultHandler.shared }()
     
     private override init() {
         
@@ -51,7 +51,6 @@ class SpotifyAPIPlaylistHandler: NSObject, ObservableObject {
         
         do {
             let jsonData = try jsonEncoder.encode(body)
-            let jsonString = String(data: jsonData, encoding: .utf8)
             
             URLSession.shared.uploadTask(with: request, from: jsonData) { data, urlResponse, error in
                 if let error = error {

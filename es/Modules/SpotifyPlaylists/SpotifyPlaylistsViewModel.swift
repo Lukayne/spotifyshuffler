@@ -11,8 +11,7 @@ import Combine
 class SpotifyPlaylistsViewModel: ObservableObject {
     
     @Published private var spotifyPlaylistsAPIHandler: SpotifyAPIPlaylistsHandler = { SpotifyAPIPlaylistsHandler.shared } ()
-    @Published private var spotifyInit: SpotifyInitiatorViewModel = { SpotifyInitiatorViewModel.shared } ()
-//    @Published var playLists: SpotifyPlaylists = SpotifyPlaylists(href: "", items: [SimplifiedPlaylistObject(collaborative: false, description: "", externalURLs: SpotifyExternalURLs(spotify: ""), href: "", id: "", images: [SpotifyImages(url: "", height: 0, width: 0)], name: "", owner: SpotifyOwner(externalURLs: SpotifyExternalURLs(spotify: ""), followers: SpotifyFollowers(href: "", total: 0), href: "", id: "", type: "", uri: "", displayName: ""), public: false, snapshotID: "", tracks: SpotifyTracks(href: "", total: 0), type: "", uri: "", primaryColor: 0)], limit: 0, next: "", offset: 0, previous: "", total: 0)
+    @Published private var spotifyInit: SpotifyAPIDefaultHandler = { SpotifyAPIDefaultHandler.shared } ()
     @Published private var currentUserProfile: SpotifyCurrentUserProfile?
     
     @Published var numberOfPlaylists: Int = 0
@@ -36,7 +35,7 @@ class SpotifyPlaylistsViewModel: ObservableObject {
     }
     
     private func getUserProfile() {
-        cancellable = spotifyPlaylistsAPIHandler.getUsersPlaylists().sink(receiveValue: { currentUserProfile in
+        cancellable = spotifyPlaylistsAPIHandler.getCurrentUserProfile().sink(receiveValue: { currentUserProfile in
             self.currentUserProfile = currentUserProfile
             
             if currentUserProfile.uri != nil {
