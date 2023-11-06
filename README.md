@@ -2,15 +2,15 @@
 
 ## An iOS-application that communicates with Spotify's API. 
 
-> SpotifyShuffler is written without any `AppDelegate` or `SceneDelegate`. 
-> In other words, SpotifyShuffler is pure `SwiftUI`.
-> SpotifyShuffler showcases the usage of `MVVM` by using both `Combine` and `SwiftUI`.       
+SpotifyShuffler is written without any `AppDelegate` or `SceneDelegate`. 
+In other words, SpotifyShuffler is pure `SwiftUI`.
+SpotifyShuffler showcases the usage of `MVVM` by using both `Combine` and `SwiftUI`.       
 
 ### What you need to do to be able to run the application. 
 
-> 1. In `Constants.swift` add your own values in: `redirect`, `spotifyClientID`, `spotifyCLientSecretKey`.
-> 2. In the `Info.plist` file add your own values in: `CFBundleURLName` and `CFBundleURLSchemes`. 
-> 3. The application will only run if you run it on a physical device. 
+1. In `Constants.swift` add your own values in: `redirect`, `spotifyClientID`, `spotifyCLientSecretKey`.
+2. In the `Info.plist` file add your own values in: `CFBundleURLName` and `CFBundleURLSchemes`. 
+3. The application will only run if you run it on a physical device. 
 
 #### So what is the point of SpotifyShuffler? 
 ## The gist of SpotifyShuffler is letting the user **truly** shuffle any of their playlists. 
