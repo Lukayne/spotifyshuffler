@@ -151,33 +151,3 @@ class SpotifyAPIPlaylistsHandler: NSObject, ObservableObject {
             .eraseToAnyPublisher()
     }
 }
-
-
-
-//    func getUsersPlaylists(userID: String, limit: Int, offset: Int) -> AnyPublisher<SpotifyPlaylists, Error> {
-//        let emptySpotifyPlaylists = SpotifyPlaylists(href: "", items: [SimplifiedPlaylistObject(collaborative: false, description: "", externalURLs: SpotifyExternalURLs(spotify: ""), href: "", id: "", images: [SpotifyImages(url: "", height: 0, width: 0)], name: "", owner: SpotifyOwner(externalURLs: SpotifyExternalURLs(spotify: ""), followers: SpotifyFollowers(href: "", total: 0), href: "", id: "", type: "", uri: "", displayName: ""), public: false, snapshotID: "", tracks: SpotifyTracks(href: "", total: 0), type: "", uri: "", primaryColor: nil)], limit: 0, next: "", offset: 0, previous: "", total: 0)
-//
-//        let queryItems = [URLQueryItem(name: "limit", value: "\(limit)"), URLQueryItem(name: "offset", value: "\(offset)")]
-//        var urlComponents = URLComponents(string: "https://api.spotify.com/v1/users/\(userID)/playlists")
-//        urlComponents?.queryItems = queryItems
-//
-//        guard let nonOptionalurlComponents = urlComponents else {
-//            return Fail(error: NSError(domain: "Error setting URLComponents", code: -10002, userInfo: nil)).eraseToAnyPublisher()
-//        }
-//
-//        guard let url = nonOptionalurlComponents.url else {
-//            return Fail(error: APIError.invalidRequestError("Invalid URLComponents")).eraseToAnyPublisher()
-//        }
-//
-//        var request = URLRequest(url: url)
-//        request.httpMethod = "GET"
-//        request.setValue("Bearer " + (spotifyDefaultAPIHandler.appRemote.connectionParameters.accessToken ?? ""), forHTTPHeaderField: "Authorization")
-//
-//        return URLSession.shared.dataTaskPublisher(for: request)
-//            .map { $0.data }
-//            .decode(type: SpotifyPlaylists.self, decoder: JSONDecoder())
-//            .replaceError(with: emptySpotifyPlaylists)
-//            .receive(on: RunLoop.main)
-//            .setFailureType(to: Error.self)
-//            .eraseToAnyPublisher()
-//    }

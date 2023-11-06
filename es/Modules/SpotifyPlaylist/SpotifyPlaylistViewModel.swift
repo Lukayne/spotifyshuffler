@@ -31,14 +31,6 @@ class SpotifyPlaylistViewModel: ObservableObject {
     init(playlist: Playlist) {
         self.playlist = playlist
         
-        spotifyPlaylistAPIHandler.objectWillChange.sink(receiveValue: { [weak self] _ in
-            self?.objectWillChange.send()
-        }).store(in: &bag)
-        
-        spotifyDefaultViewModel.objectWillChange.sink(receiveValue: { [weak self] _ in
-            self?.objectWillChange.send()
-        }).store(in: &bag)
-        
         spotifyDefaultViewModel.$currentSongBeingPlayed.sink { [weak self] song in
             self?.songBeingPlayed = song 
         }.store(in: &bag)

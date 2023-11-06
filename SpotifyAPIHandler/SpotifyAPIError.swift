@@ -20,6 +20,18 @@ enum APIError: LocalizedError {
     
     case badOrExpiredToken(String)
     
+    case subscribingToPlayerStateError(String)
+    
+    case appRemoteDisconnectedWithError(Error)
+    
+    case appRemoteDidFailConnectionAttemptWithError(Error)
+    
+    case fetchingTokenRequestError(Error)
+    
+    case fetchingPlayerStateFailedWithError(Error)
+    
+    case noAccessTokenError(String)
+    
     case serverError(statusCode: Int, reason: String? = nil, retryAfter: String? = nil)
     
     var errorDescription: String? {
@@ -36,6 +48,18 @@ enum APIError: LocalizedError {
             return "Server returned data in .."
         case .badOrExpiredToken(let reason):
             return "Bad or expired token: \(reason)"
+        case .subscribingToPlayerStateError(let reason):
+            return "Error subscribing to player state: \(reason)"
+        case .appRemoteDisconnectedWithError(let error):
+            return "App remote disconnected: \(error)"
+        case .appRemoteDidFailConnectionAttemptWithError(let error):
+            return "App remote did fail connection attempt: \(error)"
+        case .fetchingTokenRequestError(let error):
+            return "Error fetching token request: \(error)"
+        case .fetchingPlayerStateFailedWithError(let error):
+            return "Error getting player state: \(error)"
+        case .noAccessTokenError(let reason):
+            return "No access token error = \(reason)"
         case .serverError(let statusCode, let reason, let retryAfter):
             return "Server error with code \(statusCode), reason: \(reason ?? "no reason given"), retry after \(retryAfter ?? "no retry after provided")"
         }

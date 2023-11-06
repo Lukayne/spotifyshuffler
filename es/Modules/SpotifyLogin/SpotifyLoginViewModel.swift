@@ -17,7 +17,7 @@ class SpotifyLoginViewModel: ObservableObject {
     
     var loginTitle = String(localized: "loginTextFieldTitleForNotConnected")
     var userConnectionButtonTitle = String(localized: "loginUserConnectionButtonTitleForNotConnected")
-
+    
     private var bag = Set<AnyCancellable>()
     
     init() {
@@ -33,11 +33,6 @@ class SpotifyLoginViewModel: ObservableObject {
     }
     
     private func bind() {
-        spotifyDefaultViewModel.objectWillChange.sink(receiveValue: { [weak self] _ in
-            self?.objectWillChange.send()
-        }).store(in: &bag)
-        
-        
         spotifyDefaultViewModel.$authenticationState
             .sink { [weak self] authState in
                 self?.authState = authState

@@ -8,33 +8,19 @@
 import Foundation
 import Combine
 
-struct ErrorSpotifyPlaylistsViewModel {
-    var shouldShowError: Bool
-    var errorTitle: String
-    var errorMessage: String
-}
-
 class SpotifyPlaylistsViewModel: ObservableObject {
-    
-    typealias ResultSpotifyPlaylists = Result<SpotifyPlaylists, Error>
     
     @Published private var spotifyPlaylistsAPIHandler: SpotifyAPIPlaylistsHandler = { SpotifyAPIPlaylistsHandler.shared } ()
     @Published private var spotifyDefaultViewModel: SpotifyDefaultViewModel = { SpotifyDefaultViewModel.shared } ()
     @Published private var currentUserProfile: SpotifyCurrentUserProfile?
     
-    @Published private var apiError: APIError?
-    
     @Published var numberOfPlaylists: Int = 0
     @Published var playlists: [Playlist] = [Playlist(name: "", description: "", playlistID: "", externalURLs: ExternalURLs(spotify: ""), tracks: Tracks(href: "", total: 0))]
     @Published var user: User = User(name: "")
-    @Published var errorSpotifyPlaylists: ErrorSpotifyPlaylistsViewModel = ErrorSpotifyPlaylistsViewModel(shouldShowError: false, errorTitle: "", errorMessage: "")
-    
+
     private var bag = Set<AnyCancellable>()
     
     init() {
-        spotifyPlaylistsAPIHandler.objectWillChange.sink(receiveValue: { [weak self] _ in
-            self?.objectWillChange.send()
-        }).store(in: &bag)
     }
     
     deinit {

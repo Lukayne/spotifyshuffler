@@ -37,7 +37,7 @@ class SpotifyDefaultViewModel: NSObject, ObservableObject, SPTSessionManagerDele
                     case .finished:
                         break
                     case .failure(let error):
-                        print("Fetching token request error:  \(error.localizedDescription)")
+                        print(APIError.fetchingTokenRequestError(error))
                     }
                 }, receiveValue: { [weak self] spotifyAccessToken in
                     if let accessToken = spotifyAccessToken.accessToken {
@@ -80,7 +80,7 @@ class SpotifyDefaultViewModel: NSObject, ObservableObject, SPTSessionManagerDele
     func fetchPlayerState() {
         appRemote.playerAPI?.getPlayerState({ [weak self] (playerState, error) in
             if let error = error {
-                print("Error getting player state:" + error.localizedDescription)
+                print(APIError.fetchingPlayerStateFailedWithError(error))
             } else if let playerState = playerState as? SPTAppRemotePlayerState {
                 self?.update(playerState: playerState)
             }
@@ -99,7 +99,7 @@ class SpotifyDefaultViewModel: NSObject, ObservableObject, SPTSessionManagerDele
         } else if let access_token = parameters?[SPTAppRemoteAccessTokenKey] {
             accessToken = access_token
         } else if let error_description = parameters?[SPTAppRemoteErrorDescriptionKey] {
-            print("No access token error = \(error_description)")
+            print(APIError.noAccessTokenError(error_description))
         }
     }
 
@@ -153,7 +153,7 @@ class SpotifyDefaultViewModel: NSObject, ObservableObject, SPTSessionManagerDele
         appRemote.playerAPI?.delegate = self
         appRemote.playerAPI?.subscribe(toPlayerState: { (success, error) in
             if let error = error {
-                print("Error subscribing to player state:" + error.localizedDescription)
+                print(APIError.subscribingToPlayerStateError(error.localizedDescription))
                 self.authenticationState = .error
             }
 
@@ -165,10 +165,17 @@ class SpotifyDefaultViewModel: NSObject, ObservableObject, SPTSessionManagerDele
 
     func appRemote(_ appRemote: SPTAppRemote, didDisconnectWithError error: Error?) {
         connectUser()
+        if let error {
+            print(APIError.appRemoteDisconnectedWithError(error))
+        }
+        
         lastPlayerState = nil
     }
 
     func appRemote(_ appRemote: SPTAppRemote, didFailConnectionAttemptWithError error: Error?) {
+        if let error {
+            print(APIError.appRemoteDidFailConnectionAttemptWithError(error))
+        }
         connectUser()
         lastPlayerState = nil
     }
