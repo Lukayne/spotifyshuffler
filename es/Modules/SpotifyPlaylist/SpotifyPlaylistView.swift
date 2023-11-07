@@ -9,7 +9,7 @@ import SwiftUI
 
 struct SpotifyPlaylistView: View {
     
-    @EnvironmentObject var spotifyPlaylistViewModel: SpotifyPlaylistViewModel
+    @StateObject var spotifyPlaylistViewModel: SpotifyPlaylistViewModel
     
     var body: some View {
         VStack {
@@ -17,7 +17,7 @@ struct SpotifyPlaylistView: View {
             Text("Number of songs: \(spotifyPlaylistViewModel.tracks.total)")
             Text("Number of songs loaded: \(spotifyPlaylistViewModel.numberOfTracksLoaded)")
         }
-        switch spotifyPlaylistViewModel.state {
+        switch spotifyPlaylistViewModel.playlistState {
         case .loading:
             Text("Loading: \(spotifyPlaylistViewModel.remainingTracksToLoad) songs")
         case .loadedAllSongs:
@@ -52,6 +52,6 @@ struct SpotifyPlaylistView: View {
 
 struct SpotifyPlaylistView_Previews: PreviewProvider {
     static var previews: some View {
-        SpotifyPlaylistView()
+        SpotifyPlaylistView(spotifyPlaylistViewModel: SpotifyPlaylistViewModel(playlist: Playlist(name: "Indie", description: "INDIE TOP 50", playlistID: "Id..", externalURLs: ExternalURLs(spotify: "spotifyurl"), tracks: Tracks(href: "HREF", total: 123))))
     }
 }

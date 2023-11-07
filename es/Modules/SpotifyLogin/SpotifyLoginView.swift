@@ -29,7 +29,7 @@ struct SpotifyLoginView: View {
         case .error:
             Text("ERROR")
         case .authorized:
-            SpotifyPlaylistsView()
+            SpotifyPlaylistsMainView()
         }
     }
 }

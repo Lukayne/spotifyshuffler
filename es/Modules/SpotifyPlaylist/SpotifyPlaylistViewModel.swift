@@ -7,7 +7,7 @@
 
 import Combine
 
-enum State: Equatable, CaseIterable  {
+enum PlaylistState: Equatable, CaseIterable  {
     case notInitiated
     case loading
     case loadedAllSongs
@@ -18,7 +18,7 @@ class SpotifyPlaylistViewModel: ObservableObject {
     @Published var tracks: TracksForPlaylist = TracksForPlaylist(name: "", total: 0, trackObject: [TrackObject(name: "", uri: "")])
     @Published var numberOfTracksLoaded: Int = 0
     @Published var remainingTracksToLoad: Int = 0
-    @Published var state: State = State.notInitiated
+    @Published var playlistState: PlaylistState = PlaylistState.notInitiated
     @Published var songBeingPlayed: String = ""
     
     @Published private var spotifyPlaylistAPIHandler: SpotifyAPIPlaylistHandler = { SpotifyAPIPlaylistHandler.shared } ()
@@ -75,7 +75,7 @@ class SpotifyPlaylistViewModel: ObservableObject {
                 if self?.numberOfTracksLoaded != self?.tracks.total {
                     self?.mapTracks(spotifyPlaylistItems: spotifyPlaylistItems)
                 } else {
-                    self?.state = .loadedAllSongs
+                    self?.playlistState = .loadedAllSongs
                 }
             }).store(in: &bag)
     }
@@ -98,7 +98,7 @@ class SpotifyPlaylistViewModel: ObservableObject {
         if tracks.total != tracks.trackObject.count {
             loadAllTracks(numberOfTracks: remainingTracksToLoad)
         } else {
-            state = .loadedAllSongs
+            playlistState = .loadedAllSongs
         }
     }
     
@@ -107,16 +107,16 @@ class SpotifyPlaylistViewModel: ObservableObject {
         
         if numberOfTracks <= 50 {
             limit = numberOfTracks
-            state = .loading
+            playlistState = .loading
             getTracks(limit: limit, offset: 0)
             return
         }
 
         if numberOfTracksLoaded == numberOfTracks {
-            state = .loadedAllSongs
+            playlistState = .loadedAllSongs
             return
         } else {
-            state = .loading
+            playlistState = .loading
             getTracks(limit: limit, offset: numberOfTracksLoaded)
         }
     }
